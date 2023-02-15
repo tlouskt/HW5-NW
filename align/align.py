@@ -163,7 +163,7 @@ class NeedlemanWunsch:
                                 self._gapB_matrix[i-1, j-1]]
                 gapA_vals = [self.gap_open + self.gap_extend + self._align_matrix[i,j-1],
                                 self._gapA_matrix[i, j-1] + self.gap_extend,
-                                self._gapB_matrix[i,j-1] + self.gap_extend + self.gap_open]
+                                self._gapB_matrix[i, j-1] + self.gap_extend + self.gap_open]
                 gapB_vals = [self.gap_open + self.gap_extend + self._align_matrix[i-1, j],
                                 self._gapB_matrix[i-1, j] + self.gap_extend,
                                 self._gapA_matrix[i-1, j], + self.gap_open + self.gap_extend]
@@ -218,8 +218,8 @@ class NeedlemanWunsch:
                 j -= 1
                 
                 
-            elif back_index ==2: # best score came from gapB matrix, move left and gap in seqB
-                self.seq_align = self._seqA[i-1] + self.seqA_align
+            elif back_index == 2: # best score came from gapB matrix, move left and gap in seqB
+                self.seqA_align = self._seqA[i-1] + self.seqA_align
                 self.seqB_align = '-' + self.seqB_align
                 back_index = self._back_B[i,j]
                 i -= 1
