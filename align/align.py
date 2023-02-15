@@ -218,7 +218,7 @@ class NeedlemanWunsch:
                 i -= 1
                 
             else: #back_index == 2, best score came from gapB matrix, move left and gap in seqA
-                self.seqB_align = self._seqB[j-1] + self.seqB_align
+                self.seqB_align = self._seqB[j] + self.seqB_align
                 self.seqA_align = '-' + self.seqA_align
                 back_index = self._back_B[i,j]
                 j -= 1
