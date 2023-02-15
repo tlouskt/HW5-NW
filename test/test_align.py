@@ -21,8 +21,6 @@ def test_nw_alignment():
 
     
 
-    
-
 def test_nw_backtrace():
     """
     TODO: Write your unit test for NW backtracing

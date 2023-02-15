@@ -152,8 +152,8 @@ class NeedlemanWunsch:
             self._gapB_matrix[0][j] = self.gap_open + (self.gap_extend * j)
         
         #fill matrix with recurrence relation. loop through columns j of seqB then rows i of seqA. (left to right, top to bottom)
-        for j in range(1, len(seqB)+1):
-            for i in range(1, len(seqA)+1):
+        for j in range(1, len(seqA)+1):
+            for i in range(1, len(seqB)+1):
                 #get match score from substituion matrices between seqA and seqB
                 match_score = self.sub_dict[(seqA[i-1], seqB[j-1])]
 
@@ -173,10 +173,23 @@ class NeedlemanWunsch:
                 self._gapA_matrix[i,j] = max(gapA_vals)
                 self._gapB_matrix[i,j] = max(gapB_vals)
 
+                #update backtracing matrix
+                scores = [self._align_matrix[i,j],self._gapA_matrix[i,j],self._gapB_matrix[i,j]]
+                back_max = np.argmax(scores)
+
+                if back_max == 0:
+                    self._back[i, j] == 0
+                
+                elif back_max == 1:
+                    self._back[i,j] == 1
+                
+                elif back_max == 2:
+                    self._back[i,j] == 2
+
                 #update backtracing matrices with index of max values
-                self._back[i,j] = np.argmax(align_vals)
-                self._back_A[i,j] = np.argmax(gapA_vals)
-                self._back_B[i,j] = np.argmax(gapB_vals)
+                #self._back[i,j] = np.argmax(align_vals)
+                #self._back_A[i,j] = np.argmax(gapA_vals)
+                #self._back_B[i,j] = np.argmax(gapB_vals)
         		    
         return self._backtrace()
 
@@ -200,28 +213,28 @@ class NeedlemanWunsch:
 
         scores = [self._align_matrix[i,j],self._gapA_matrix[i,j],self._gapB_matrix[i,j]]
         self.alignment_score = max(scores)
-        back_index = np.argmax(scores)
 
-        while i !=0 and j !=0:
-            
+
+        while i > 0 and j > 0:
+            back_index = self._back[i,j]
             if back_index == 0: #best score came from alignment matrix, move diagonally
                 self.seqA_align = self._seqA[i-1] + self.seqA_align
                 self.seqB_align = self._seqB[j-1] + self.seqB_align
-                back_index = self._back[i,j]
+                #back_index = self._back[i,j] #get next index
                 i -= 1 #move back 1 in i direction
                 j -= 1 #move back 1 in j direction
             
             elif back_index == 1: #best score came from gapA matrix, move up and gap in seqA
                 self.seqB_align = self._seqB[j-1] + self.seqB_align
                 self.seqA_align = '-' + self.seqA_align
-                back_index = self._back_A[i,j]
+                #back_index = self._back_A[i,j]
                 j -= 1
                 
                 
             elif back_index == 2: # best score came from gapB matrix, move left and gap in seqB
                 self.seqA_align = self._seqA[i-1] + self.seqA_align
                 self.seqB_align = '-' + self.seqB_align
-                back_index = self._back_B[i,j]
+                #back_index = self._back_B[i,j]
                 i -= 1
 
 
