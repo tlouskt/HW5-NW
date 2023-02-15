@@ -220,8 +220,8 @@ class NeedlemanWunsch:
                  j -= 1
 
         #return reverse since traced bottom right to top left
-        self.seqA_align = self.seqA_align[::-1]
-        self.seqB_align = self.seqB_align[::-1]
+        #self.seqA_align = self.seqA_align[::-1]
+        #self.seqB_align = self.seqB_align[::-1]
 
 
         return (self.alignment_score, self.seqA_align, self.seqB_align)
