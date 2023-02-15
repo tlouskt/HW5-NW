@@ -172,11 +172,6 @@ class NeedlemanWunsch:
                 self._align_matrix[i,j] = max(align_vals) + match_score
                 self._gapA_matrix[i,j] = max(gapA_vals)
                 self._gapB_matrix[i,j] = max(gapB_vals)
-
-                #update backtracing matrices with index of max values
-                #self._back[i,j] = np.argmax(align_vals)
-                #self._back_A[i,j] = np.argmax(gapA_vals)
-                #self._back_B[i,j] = np.argmax(gapB_vals)
         		    
         return self._backtrace()
 
@@ -197,11 +192,8 @@ class NeedlemanWunsch:
 
         i = len(self._seqA)
         j = len(self._seqB)
-
-        scores = [self._align_matrix[i,j],self._gapA_matrix[i,j],self._gapB_matrix[i,j]]
-        self.alignment_score = max(scores)
         
-
+        self.alignment_score = self._align_matrix[i,j]
 
         while i > 0 and j > 0:
             scores = [self._align_matrix[i,j],self._gapA_matrix[i,j],self._gapB_matrix[i,j]]
@@ -209,22 +201,19 @@ class NeedlemanWunsch:
             
             if back_index == 0: #best score came from alignment matrix, move diagonally
                 self.seqA_align = self._seqA[i-1] + self.seqA_align
-                self.seqB_align = self._seqB[j-1] + self.seqB_align
-                #back_index = self._back[i,j] #get next index
-                i -= 1 #move back 1 in i direction
-                j -= 1 #move back 1 in j direction
+                self.seqB_align = self._seqB[j-1] + self.seqB_align 
+                i -= 1 #move back 1 in i, row direction
+                j -= 1 #move back 1 in j, column direction
             
             elif back_index == 1: #best score came from gapA matrix, move up and gap in seqA
                 self.seqB_align = self._seqB[j-1] + self.seqB_align
                 self.seqA_align = '-' + self.seqA_align
-                #back_index = self._back_A[i,j]
                 j -= 1
                 
                 
             elif back_index == 2: # best score came from gapB matrix, move left and gap in seqB
                 self.seqA_align = self._seqA[i-1] + self.seqA_align
                 self.seqB_align = '-' + self.seqB_align
-                #back_index = self._back_B[i,j]
                 i -= 1
 
 

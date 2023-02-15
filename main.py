@@ -26,10 +26,19 @@ def main():
 
     # TODO print all of the alignment score between each species BRD2 and human BRD2
     # using gap opening penalty of -10 and a gap extension penalty of -1 and BLOSUM62 matrix
+   
+    species_score_dict = {'Gallus gallus':gg_score,
+                          'Mus musculus': mm_score, 
+                          'Balaeniceps_rex': br_score, 
+                          'tursiops truncatus': tt_score}
+    sorted_scores = sorted(species_score_dict.items(), key=lambda x: -x[1])
+    print('Species in order of most to least similar:')
+    for i in species_score_dict:
+        print(i[0])
+    for species, score in species_score_dict:
+        print(f"alignment scores of {species} BRD2 and Homo sapiens BRD2 : {score}")
 
-    scores = []
-    scores = [gg_score, mm_score, br_score, tt_score]
-    
+
 
     
 

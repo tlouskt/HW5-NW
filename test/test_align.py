@@ -19,6 +19,25 @@ def test_nw_alignment():
 
     score, seq1_align, seq2_align = nw.align(seq1, seq2)
 
+    assert nw._align_matrix == np.array([[  0., -np.inf, -np.inf, -np.inf],
+                                        [-np.inf,   5., -11., -13.],
+                                        [-np.inf, -12.,   4.,  -8.],
+                                        [-np.inf, -12.,  -1.,   5.],
+                                        [-np.inf, -14.,  -6.,   4.]])
+    
+    assert nw._gapA_matrix == np.array([[-10., -np.inf, -np.inf, -np.inf],
+                                        [-11., -12.,  -6.,  -7.],
+                                        [-12., -13., -14.,  -7.],
+                                        [-13., -14., -15., -12.],
+                                        [-14., -15., -16., -17.]])
+
+    assert nw._gapB_matrix == np.array([[-10., -11., -12., -13.],
+                                        [-np.inf, -11., -11., -11.],
+                                        [-np.inf,  -6.,  -6.,  -7.],
+                                        [-np.inf,  -7.,  -7.,  -7.],
+                                        [-np.inf,  -8.,  -8.,  -6.]])
+                    
+
     
 
 def test_nw_backtrace():
