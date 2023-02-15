@@ -200,10 +200,12 @@ class NeedlemanWunsch:
 
         scores = [self._align_matrix[i,j],self._gapA_matrix[i,j],self._gapB_matrix[i,j]]
         self.alignment_score = max(scores)
-        back_index = np.argmax(scores)
+        
 
 
         while i > 0 and j > 0:
+            scores = [self._align_matrix[i,j],self._gapA_matrix[i,j],self._gapB_matrix[i,j]]
+            back_index = np.argmax(scores)
             
             if back_index == 0: #best score came from alignment matrix, move diagonally
                 self.seqA_align = self._seqA[i-1] + self.seqA_align
