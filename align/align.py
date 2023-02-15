@@ -161,12 +161,12 @@ class NeedlemanWunsch:
                 align_vals = [self._align_matrix[i-1, j-1], 
                                 self._gapA_matrix[i-1, j-1], 
                                 self._gapB_matrix[i-1, j-1]]
-                gapA_vals = [self.gap_open + self.gap_extend + self._align_matrix[i-1,j],
-                                self._gapA_matrix[i-1, j] + self.gap_extend,
-                                self._gapB_matrix[i-1,j] + self.gap_extend + self.gap_open]
-                gapB_vals = [self.gap_open + self.gap_extend + self._align_matrix[i, j-1],
-                                self._gapB_matrix[i, j-1] + self.gap_extend,
-                                self._gapA_matrix[i, j-1], + self.gap_open + self.gap_extend]
+                gapA_vals = [self.gap_open + self.gap_extend + self._align_matrix[i,j-1],
+                                self._gapA_matrix[i, j-1] + self.gap_extend,
+                                self._gapB_matrix[i,j-1] + self.gap_extend + self.gap_open]
+                gapB_vals = [self.gap_open + self.gap_extend + self._align_matrix[i-1, j],
+                                self._gapB_matrix[i-1, j] + self.gap_extend,
+                                self._gapA_matrix[i-1, j], + self.gap_open + self.gap_extend]
                 
                 #get max values and fill in matrices
                 self._align_matrix[i,j] = max(align_vals) + match_score
@@ -210,14 +210,14 @@ class NeedlemanWunsch:
                 j -= 1 #move back 1 in j direction
             
             elif back_index == 1: #best score came from gapA matrix, move up and gap in seqB
-                self.seqA_align = self._seqA[i-1] + self.seqA_align
+                self.seqB_align = self._seqB[j-1] + self.seqB_align
+                self.seqA_align = '-' + self.seqA_align
+                j -= 1
+                
+            else: #back_index == 2, best score came from gapB matrix, move left and gap in seqA
+                self.seq_align = self._seqA[i-1] + self.seqA_align
                 self.seqB_align = '-' + self.seqB_align
                 i -= 1
-            
-            else: #back_index == 2, best score came from gapB matrix, move left and gap in seqA
-                 self.seqB_align = self._seqB[j-1] + self.seqB_align
-                 self.seqA_align = '-' + self.seqA_align
-                 j -= 1
 
         #return reverse since traced bottom right to top left
         #self.seqA_align = self.seqA_align[::-1]
