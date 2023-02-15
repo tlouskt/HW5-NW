@@ -194,6 +194,11 @@ class NeedlemanWunsch:
          	(alignment score, seqA alignment, seqB alignment) : Tuple[float, str, str]
          		the score and corresponding strings for the alignment of seqA and seqB
         """
+
+        # Resetting alignment in case method is called more than once
+        self.seqA_align = ""
+        self.seqB_align = ""
+
         i = len(self._seqA)
         j = len(self._seqB)
 
