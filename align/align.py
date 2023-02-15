@@ -128,11 +128,59 @@ class NeedlemanWunsch:
         
         # TODO: Initialize matrix private attributes for use in alignment
         # create matrices for alignment scores, gaps, and backtracing
-        pass
+        
+        # initialize matrices for alignment scores and gaps
+        self._align_matrix = np.ones((len(seqA) + 1, len(seqB) + 1)) * -np.inf
+        self._gapA_matrix = np.ones((len(seqA) + 1, len(seqB) + 1)) * -np.inf
+        self._gapB_matrix = np.ones((len(seqA) + 1, len(seqB) + 1)) * -np.inf
 
+        #initialize matrices for backtracing
+        self._back_matrix = np.ones((len(seqA) + 1, len(seqB) + 1)) * -np.inf
+        self._back_A = np.ones((len(seqA) + 1, len(seqB) + 1)) * -np.inf
+        self._back_B = np.ones((len(seqA) + 1, len(seqB) + 1)) * -np.inf
         
         # TODO: Implement global alignment here
-        pass      		
+        
+        #initilize alighment matrix top left corner to 0
+        self._align_matrix[0] = 0
+
+        #initilize gap matrices, first row (seqA) and column(seqB) with gap penalties
+        #other cells in top row and leftmost column = -inf
+        for i in range(0, len(seqA) + 1):
+            self._gapA_matrix[i][0] = self.gap_open + (self.gap_extend * i)
+        for j in range(0, len(seqB) + 1):
+            self._gapB_matrix[0][j] = self.gap_open + (self.gap_extend * j)
+        
+        #fill matrix with recurrence relation. loop through columns j of seqB then rows i of seqA. (left to right, top to bottom)
+        for j in range(1, len(seqB)+1):
+            for i in range(1, len(seqA)+1):
+                #get match score from substituion matrices between seqA and seqB
+                match_score = self.sub_dict[(seqA[i-1], seqB[j-1])]
+
+                #fill in scores for alignment matrix (diagonal), gapA matrix, gapB matrix
+                align_vals = [self._align_matrix[i-1, j-1], 
+                                self._gapA_matrix[i-1, j-1], 
+                                self._gapB_matrix[i-1, j-1]]
+                gapA_vals = [self.gap_open + self.gap_extend + self._align_matrix[i-1,j],
+                                self._gapA_matrix[i-1, j] + self.gap_extend,
+                                self._gapB_matrix[i-1,j] + self.gap_extend + self.gap_open]
+                gapB_vals = [self.gap_open + self.gap_extend + self._align_matrix[i, j-1],
+                                self._gapB_matrix[i, j-1] + self.gap_extend,
+                                self._gapA_matrix[i, j-1], + self.gap_open + self.gap_extend]
+                
+                #get max values and fill in matrices
+                self._align_matrix[i,j] = max(align_vals) + match_score
+                self._gapA_matrix[i,j] = max(gapA_vals)
+                self._gapB_matrix[i,j] = max(gapB_vals)
+
+
+
+
+
+
+        
+
+
         		    
         return self._backtrace()
 
