@@ -174,9 +174,9 @@ class NeedlemanWunsch:
                 self._gapB_matrix[i,j] = max(gapB_vals)
 
                 #update backtracing matrices with index of max values
-                self._back[i,j] = np.argmax(align_vals)
-                self._back_A[i,j] = np.argmax(gapA_vals)
-                self._back_B[i,j] = np.argmax(gapB_vals)
+                #self._back[i,j] = np.argmax(align_vals)
+                #self._back_A[i,j] = np.argmax(gapA_vals)
+                #self._back_B[i,j] = np.argmax(gapB_vals)
         		    
         return self._backtrace()
 
