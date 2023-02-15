@@ -173,19 +173,6 @@ class NeedlemanWunsch:
                 self._gapA_matrix[i,j] = max(gapA_vals)
                 self._gapB_matrix[i,j] = max(gapB_vals)
 
-                #update backtracing matrix
-                scores = [self._align_matrix[i,j],self._gapA_matrix[i,j],self._gapB_matrix[i,j]]
-                back_max = np.argmax(scores)
-
-                if back_max == 0:
-                    self._back[i, j] == 0
-                
-                elif back_max == 1:
-                    self._back[i,j] == 1
-                
-                elif back_max == 2:
-                    self._back[i,j] == 2
-
                 #update backtracing matrices with index of max values
                 #self._back[i,j] = np.argmax(align_vals)
                 #self._back_A[i,j] = np.argmax(gapA_vals)
@@ -213,10 +200,11 @@ class NeedlemanWunsch:
 
         scores = [self._align_matrix[i,j],self._gapA_matrix[i,j],self._gapB_matrix[i,j]]
         self.alignment_score = max(scores)
+        back_index = np.argmax(scores)
 
 
         while i > 0 and j > 0:
-            back_index = self._back[i,j]
+            
             if back_index == 0: #best score came from alignment matrix, move diagonally
                 self.seqA_align = self._seqA[i-1] + self.seqA_align
                 self.seqB_align = self._seqB[j-1] + self.seqB_align
