@@ -207,20 +207,19 @@ class NeedlemanWunsch:
             if back_index == 0: #best score came from alignment matrix, move diagonally
                 self.seqA_align = self._seqA[i-1] + self.seqA_align
                 self.seqB_align = self._seqB[j-1] + self.seqB_align
-                back_index = self._back[i,j]
                 i -= 1 #move back 1 in i direction
                 j -= 1 #move back 1 in j direction
             
             elif back_index == 1: #best score came from gapA matrix, move up and gap in seqB
                 self.seq_align = self._seqA[i-1] + self.seqA_align
                 self.seqB_align = '-' + self.seqB_align
-                back_index = self._back_A[i,j]
+                #back_index = self._back_A[i,j]
                 i -= 1
                 
             elif back_index ==2: # best score came from gapB matrix, move left and gap in seqA
                 self.seqB_align = self._seqB[j-1] + self.seqB_align
                 self.seqA_align = '-' + self.seqA_align
-                back_index = self._back_B[i,j]
+                #back_index = self._back_B[i,j]
                 j -= 1
 
 
