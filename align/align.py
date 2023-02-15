@@ -152,8 +152,8 @@ class NeedlemanWunsch:
             self._gapB_matrix[0][j] = self.gap_open + (self.gap_extend * j)
         
         #fill matrix with recurrence relation. loop through columns j of seqB then rows i of seqA. (left to right, top to bottom)
-        for j in range(1, len(seqA)+1):
-            for i in range(1, len(seqB)+1):
+        for i in range(1, len(seqA)+1):
+            for j in range(1, len(seqB)+1):
                 #get match score from substituion matrices between seqA and seqB
                 match_score = self.sub_dict[(seqA[i-1], seqB[j-1])]
 
